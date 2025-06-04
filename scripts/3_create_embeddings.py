@@ -16,10 +16,12 @@ def main():
     with open(CHUNK_FILE, "r", encoding="utf-8") as f:
         chunks = [chunk.strip() for chunk in f.read().split("\n\n") if chunk.strip()]
 
+    print(f"[📄] Loaded {len(chunks)} chunks from {CHUNK_FILE}")
     docs = [Document(page_content=chunk) for chunk in chunks]
 
     # Load embedding model
     embedding_model = HuggingFaceEmbeddings(model_name=EMBED_MODEL_NAME)
+    print(f"[📐] Sample embedding vector shape: {len(embedding_model.embed_query('test'))}")
 
     # Create FAISS vectorstore and save
     vectorstore = FAISS.from_documents(docs, embedding_model)
