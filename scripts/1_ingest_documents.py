@@ -28,7 +28,11 @@ def get_article_urls(base_url, max_links=50):
                 full_url = "https://www.angelone.in" + href
                 links.add(full_url)
 
+        print(f"[🔗] Found {len(links)} URLs from {base_url}")
+        for url in list(links)[:max_links]:
+            print(" -", url)
         return list(links)[:max_links]
+        # return list(links)[:max_links]
     except Exception as e:
         print(f"[ERROR] Could not crawl {base_url}: {e}")
         return []
@@ -51,14 +55,17 @@ def scrape_support_webpage():
     for base_url in base_urls:
         page_links = get_article_urls(base_url)
         for url in page_links:
+            print(f"[🌐] Visiting: {url}")
             try:
                 driver.get(url)
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.TAG_NAME, "article"))
                 )
                 article_text = driver.find_element(By.TAG_NAME, "article").text
+                print(f"[✅] Scraped content length: {len(article_text)}")
                 all_texts.append(article_text)
             except Exception:
+                print(f"[❌] Failed to scrape: {url} | Reason: {e}")
                 continue  # skip failed pages
 
     driver.quit()
@@ -80,14 +87,26 @@ def main():
 
     for filename in os.listdir(DATA_FOLDER):
         path = os.path.join(DATA_FOLDER, filename)
+        print(f"[📄] Processing file: {filename}")
         if filename.endswith(".pdf"):
-            combined_text += extract_pdf_text(path) + "\n\n"
+            try:
+                text = extract_pdf_text(path)
+                print(f"[✅] Extracted {len(text)} characters from {filename}")
+                combined_text += text + "\n\n"
+            except Exception as e:
+                print(f"[❌] Failed to read PDF: {filename} | {e}")
         elif filename.endswith(".docx"):
-            combined_text += extract_docx_text(path) + "\n\n"
+            try:
+                text = extract_docx_text(path)
+                print(f"[✅] Extracted {len(text)} characters from {filename}")
+                combined_text += text + "\n\n"
+            except Exception as e:
+                print(f"[❌] Failed to read DOCX: {filename} | {e}")
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(combined_text)
-
+    print(f"[📦] Ingestion complete. Total characters saved: {len(combined_text)}")
+    print(f"[📁] Output file: {OUTPUT_FILE}")
     print("[✅] Ingestion complete. Data saved to:", OUTPUT_FILE)
 
 if __name__ == "__main__":
