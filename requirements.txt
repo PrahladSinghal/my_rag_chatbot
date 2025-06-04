@@ -1,0 +1,11 @@
+streamlit
+langchain>=0.0.37
+huggingface-hub
+transformers
+faiss-cpu
+sentence-transformers
+torch
+python-docx
+beautifulsoup4
+requests
+unstructured
