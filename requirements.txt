@@ -1,11 +1,24 @@
-streamlit
-langchain>=0.0.37
-huggingface-hub
-transformers
-faiss-cpu
-sentence-transformers
-torch
-python-docx
+# Core Python packages
 beautifulsoup4
 requests
-unstructured
+python-docx
+PyMuPDF
+
+# Selenium and Chrome driver manager
+selenium
+webdriver-manager
+
+# LangChain and related packages
+langchain
+langchain-community
+langchain-huggingface
+
+# Vector store and embeddings
+faiss-cpu  # or faiss-gpu if using GPU, but faiss-cpu is usually safer on Streamlit Cloud
+transformers
+torch  # Required by transformers and HuggingFacePipeline
+accelerate  # Optional, improves transformer model loading
+sentence-transformers
+
+# Streamlit itself
+streamlit
