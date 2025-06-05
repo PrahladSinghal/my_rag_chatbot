@@ -23,7 +23,7 @@ hf_pipeline = pipeline(
 
 llm = HuggingFacePipeline(pipeline=hf_pipeline)
 
-print("✅ Chatbot is ready! Ask your questions. (type 'exit' to quit)")
+print("Chatbot is ready! Ask your questions. (type 'exit' to quit)")
 while True:
     query = input("\nYou: ")
     if query.lower() in ["exit", "quit"]:
@@ -32,7 +32,7 @@ while True:
     try:
         # Retrieve documents using .invoke() per new API
         docs = retriever.invoke(query)
-        print("\n📄 Retrieved Context Preview:")
+        print("\nRetrieved Context Preview:")
         for i, d in enumerate(docs, 1):
             print(f"{i}.", d.page_content[:300].replace("\n", " "), "\n")
 
@@ -51,7 +51,7 @@ Helpful Answer:"""
         # Generate answer with .invoke()
         result = llm.invoke(prompt)
 
-        print(f"\n🤖 Answer: {result.strip()}")
+        print(f"\nAnswer: {result.strip()}")
 
     except Exception as e:
-        print(f"❌ Error:\n{e}")
+        print(f"Error:\n{e}")
