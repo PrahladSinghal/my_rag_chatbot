@@ -34,13 +34,13 @@ qa_chain = RetrievalQA.from_chain_type(
     retriever=retriever,
     return_source_documents=False,
     chain_type_kwargs={"prompt": PROMPT},
-    input_key="question",  # ✅ Use correct input key
+    input_key="question",  # Use correct input key
 )
 
 # Expose answer function
 def get_answer(query: str) -> str:
     try:
-        result = qa_chain.invoke({"question": query})  # ✅ Correct input key
+        result = qa_chain.invoke({"question": query})  # Correct input key
         answer = result.get("result", "").strip()
 
         if not answer or "i don't know" in answer.lower():
@@ -48,5 +48,5 @@ def get_answer(query: str) -> str:
 
         return answer
     except Exception as e:
-        print(f"[❌] Error during answer generation: {e}")
+        print(f"Error during answer generation: {e}")
         return "I don't know"
