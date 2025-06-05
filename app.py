@@ -27,6 +27,6 @@ if prompt := st.chat_input("Ask your question..."):
                 answer = get_answer(prompt)
             except Exception as e:
                 answer = "Sorry, something went wrong. Please try again later."
-                st.error(f"❌ Error: {e}")
+                st.error(f"Error: {e}")
             st.markdown(answer)
             st.session_state.messages.append({"role": "assistant", "content": answer})
